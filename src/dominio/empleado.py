@@ -1,41 +1,45 @@
 from dominio.registrotiempo import RegistroTiempo
+from datetime import date
+from typing import List
 
 class Empleado:
-    def __init__(self, nombre: str, correo: str):
-        self.nombre = nombre
-        self.correo = correo
-        self._registrotiempo: list[RegistroTiempo] = []
-    
-    def agregar_registrotiempo(self, registrotiempo: RegistroTiempo) -> bool:
-        if registrotiempo in self._registrotiempo:
-            return False
+    def __init__(self, id_empleado: int, nombre: str, direccion: str, numero_telefono: int, 
+                 correo: str, fecha_contrato: date, sueldo: float, rol: int):
+        self._idEmpleado = id_empleado
+        self._nombre = nombre
+        self._direccion = direccion
+        self._numeroTelefono = numero_telefono
+        self._correo = correo
+        self._fechaContrato = fecha_contrato
+        self._sueldo = sueldo
+        self._rol = rol
+        
+        # Relación INSPECCIONA (0..*) ahora con RegistroTiempo
+        self._registros_tiempo: List[RegistroTiempo] = []
 
-        self._registrotiempo.append(registrotiempo)
-        return True
-    @property
-    def registrohoras(self) -> tuple:
-        return tuple(self._registrotiempo)
+    # Métodos del UML
+    def method(self, type: str):
+        """Método genérico indicado en el UML."""
+        print(f"Ejecutando método genérico de tipo: {type}")
 
-    def cantidad_horas(self) -> int:
-        return len(self._registrotiempo)
+    def verSalario(self) -> float:
+        """Retorna el sueldo actual del empleado."""
+        return self._sueldo
 
-    def mostrar_datos(self) -> str:
-        return f"{self.nombre} - {self.correo}"
-    
-    def calcular_pago(self) -> float:
-        raise NotImplementedError
+    def registrarHoras(self, registro: RegistroTiempo) -> int:
+        """
+        Agrega un objeto RegistroTiempo al historial del empleado.
+        Retorna el ID del registro agregado.
+        """
+        self._registros_tiempo.append(registro)
+        print(f"-> Registro de tiempo añadido para {self._nombre}.")
+        return registro._idRegistro
 
-class EmpleadoMensual(Empleado):
-    def __init__(self, sueldo: float):
-        self.sueldo = sueldo
+    # Método extra para ver el historial
+    def ver_historial_tiempo(self):
+        print(f"\nHistorial de tiempo de {self._nombre}:")
+        for reg in self._registros_tiempo:
+            print(f"   {reg}")
 
-    def calcular_pago(self) -> float:
-        return self.sueldo
-
-class EmpleadoPorHora(Empleado):
-    def __init__(self, horas: float, valor_hora: float):
-        self.horas = horas
-        self.valor_hora = valor_hora
-    
-    def calcular_pago(self) -> float:
-        return self.horas * self.valor_hora
+    def __str__(self):
+        return f"Empleado: {self._nombre} (ID: {self._idEmpleado})"
