@@ -1,8 +1,7 @@
 from datetime import date
 
 class RegistroTiempo:
-    def __init__(self, id_registro: int, horas_trabajadas: int, fecha_trabajada: date, 
-                 descripcion_tarea: str, valor_hora_trabajada: float):
+    def __init__(self, id_registro: int, horas_trabajadas: int, fecha_trabajada: date, descripcion_tarea: str, valor_hora_trabajada: float):
         self._idRegistro = id_registro
         self._horasTrabajadas = horas_trabajadas
         self._fechaTrabajada = fecha_trabajada

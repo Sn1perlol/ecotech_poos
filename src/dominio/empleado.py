@@ -3,8 +3,7 @@ from datetime import date
 from typing import List
 
 class Empleado:
-    def __init__(self, id_empleado: int, nombre: str, direccion: str, numero_telefono: int, 
-                 correo: str, fecha_contrato: date, sueldo: float, rol: int):
+    def __init__(self, nombre: str, direccion: str, numero_telefono: int, correo: str, fecha_contrato: str, sueldo: float, rol: int, id_empleado = None):
         self._idEmpleado = id_empleado
         self._nombre = nombre
         self._direccion = direccion

@@ -1,4 +1,5 @@
-from persistencia.conexion import abrir_conexion, obtener_motor
+from persistencia.conexion import abrir_conexion, obtener_motor, marcador_sql
+from dominio.empleado import Empleado
 
 class EmpleadoDAO:
     @staticmethod
@@ -13,8 +14,64 @@ class EmpleadoDAO:
         """
 
 
-        cursor.execute(sql, (empleado.nombre, empleado.correo))
+        cursor.execute(sql, (empleado._nombre, empleado._correo))
         empleado.id = cursor.lastrowid
         conexion.commit()
         conexion.close()
         return empleado
+    
+    @staticmethod
+    def buscar_por_id(id_empleado):
+        conexion = abrir_conexion()
+        cursor = conexion.cursor()
+
+        marca = marcador_sql()
+        sql = f"""
+                SELECT id, nombre, correo
+                FROM empleado WHERE id = {marca}
+            """
+        
+        cursor.execute(sql, (id_empleado,))
+        fila = cursor.fetchone()
+        conexion.close()
+
+        if fila is None:
+            return None
+        return Empleado(id=fila[0], nombre=fila[1], correo=fila[2])
+
+    @staticmethod
+    def listar():
+        conexion = abrir_conexion()
+        cursor = conexion.cursor()
+
+        cursor.execute(
+            "SELECT id, nombre, correo FROM empleado"
+        )
+        filas = cursor.fetchall()
+        conexion.close()
+
+        empleados = []
+
+        for fila in filas:
+            empleados.append(
+                Empleado.__init__(
+                    id=fila[0],
+                    nombre=fila[1],
+                    correo=fila[2]
+                )
+            )
+        return empleados
+    
+    @staticmethod
+    def _fila_a_empleado(fila):
+        return Empleado(
+            id=fila[0],
+            nombre=fila[1],
+            correo=fila[2]
+        )
+    
+    @staticmethod
+    def buscar_por_id(id_empleado):
+        if fila is None:
+            return None
+        return EmpleadoDAO._fila_a_empleado(fila)
