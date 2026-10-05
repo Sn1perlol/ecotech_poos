@@ -3,8 +3,8 @@ from datetime import date
 from typing import List
 
 class Empleado:
-    def __init__(self, nombre: str, direccion: str, numero_telefono: int, correo: str, fecha_contrato: str, sueldo: float, rol: int, id_empleado = None):
-        self._idEmpleado = id_empleado
+    def __init__(self, nombre: str, direccion: str, numero_telefono: int, correo: str, fecha_contrato: str, sueldo: float, rol: int, id = None):
+        self._id = id
         self._nombre = nombre
         self._direccion = direccion
         self._numeroTelefono = numero_telefono
@@ -41,4 +41,4 @@ class Empleado:
             print(f"   {reg}")
 
     def __str__(self):
-        return f"Empleado: {self._nombre} (ID: {self._idEmpleado})"
+        return f"Empleado: {self._nombre} (ID: {self._id})"

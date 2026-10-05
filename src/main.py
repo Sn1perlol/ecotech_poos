@@ -13,12 +13,12 @@ crear_tablas()
 empleado = Empleado(nombre="Ana Pérez", direccion="Pasaje Cielo 2023", numero_telefono=947583921,
                     correo="ana@ecotech.cl", fecha_contrato="20 de abril del 2024", sueldo=350000.34, rol=1)
 
-print("Antes:", empleado._idEmpleado)
+print("Antes:", empleado._id)
 # None
 
 EmpleadoDAO.insertar(empleado)
 
-print("Después:", empleado.id)
+print("Después:", empleado._id)
 # id generado por la BD
 
 empleado = Empleado(
@@ -33,7 +33,7 @@ empleado = Empleado(
 
 EmpleadoDAO.insertar(empleado)
 
-encontrado = EmpleadoDAO.buscar_por_id(empleado._idEmpleado)
+encontrado = EmpleadoDAO.buscar_por_id(empleado._id)
 print("Encontrado:", encontrado)
 
 print("Listado:")
