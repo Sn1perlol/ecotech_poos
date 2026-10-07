@@ -21,41 +21,48 @@ class EmpleadoDAO:
         return empleado
     
     @staticmethod
-    def actualizar(empleado)
-        conexion = abrir_conexion()
-        cursor = conexion.cursor()
+    def actualizar(empleado):
+        conexion = None
+        try:
+            
+            conexion = abrir_conexion()
+            cursor = conexion.cursor()
 
-        marca = marcador_sql()
-        sql = (
-            "UPDATE empleado"
-            f"""SET nombre = {marca}, correo = {marca}, direccion = {marca},
-                numero_telefono = {marca}, fecha_contrato = {marca}, sueldo = {marca},
-                rol = {marca}"""
-            f"WHERE id = {marca}"
-        )
-
-        cursor.execute(
-            sql,
-            (
-                empleado.nombre,
-                empleado.correo,
-                empleado.direccion,
-                empleado.numero_telefono,
-                empleado.fecha_contrato,
-                empleado.sueldo,
-                empleado.rol,
-                empleado.id
+            marca = marcador_sql()
+            sql = (
+                "UPDATE empleado"
+                f"""SET nombre = {marca}, correo = {marca}, direccion = {marca},
+                    numero_telefono = {marca}, fecha_contrato = {marca}, sueldo = {marca},
+                    rol = {marca}"""
+                f"WHERE id = {marca}"
             )
-        )
 
-        conexion.commit()
-        filas_afectadas = cursor.rowcount
-        conexion.close()
+            cursor.execute(
+                sql,
+                (
+                    empleado.nombre,
+                    empleado.correo,
+                    empleado.direccion,
+                    empleado.numero_telefono,
+                    empleado.fecha_contrato,
+                    empleado.sueldo,
+                    empleado.rol,
+                    empleado.id
+                )
+            )
 
-        return filas_afectadas > 0
-    
+            conexion.commit()
+            return cursor.rowcount > 0
+        except Exception:
+            if conexion:
+                conexion.rollback()
+                raise
+        finally:
+            if conexion:
+                conexion.close()
+
     @staticmethod
-    def eliminar(id_empleado)
+    def eliminar(id_empleado):
         conexion = abrir_conexion()
         cursor = conexion.cursor()
 
@@ -75,7 +82,7 @@ class EmpleadoDAO:
 
     @staticmethod
     def buscar_por_id(id):
-        conexion = abrir_conexion()
+        conexion = abrir_conexi00on()
         cursor = conexion.cursor()
 
         marca = marcador_sql()
