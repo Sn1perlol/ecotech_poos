@@ -27,3 +27,5 @@ class Proyecto:
 
     def __str__(self):
         return f"Proyecto: {self._nombre} (ID: {self._idProyecto})"
+
+    

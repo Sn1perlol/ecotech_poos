@@ -7,35 +7,42 @@ from dominio.registrotiempo import RegistroTiempo
 from persistencia.crear_bd import crear_tablas
 from dominio.empleado import Empleado
 from persistencia.empleado_dao import EmpleadoDAO
+from menus.menudepartamento import menu_departamento
+from menus.menuempleado import menu_empleado
+from menus.menuproyecto import menu_proyecto
+from menus.menuregistrotiempo import menu_registrotiempo
 
 
-crear_tablas()
-empleado = Empleado(nombre="Ana Pérez", direccion="Pasaje Cielo 2023", numero_telefono=947583921,
-                    correo="ana@ecotech.cl", fecha_contrato="20 de abril del 2024", sueldo=350000.34, rol=1)
+def main():
+    while True:
+        print("\n=== SISTEMA ===")
+        print("1. Empleados")
+        print("2. Departamentos")
+        print("3. Proyectos")
+        print("4. Registros de Tiempo")
+        print("0. Salir")
 
-print("Antes:", empleado._id)
-# None
+        opcion = input("Seleccione una opción: ").strip()
 
-EmpleadoDAO.insertar(empleado)
+        if opcion == "1":
+            menu_empleado()
+        elif opcion == "2":
+            menu_departamento()
+        elif opcion == "3":
+            menu_proyecto()
+        elif opcion == "4":
+            menu_registrotiempo()
+        elif opcion == "0":
+            print("Saliendo del sistema...")
+            break
+        else:
+            print("Opción inválida.")
 
-print("Después:", empleado._id)
-# id generado por la BD
 
-empleado = Empleado(
-    nombre="Javier Castillo",
-    direccion="calle hurtado 2026",
-    numero_telefono=973382653,
-    correo="javier.castillo@ecotech.cl",
-    fecha_contrato="09 de mayo del 2021",
-    sueldo=389000.94,
-    rol=2
-)
-
-EmpleadoDAO.insertar(empleado)
-
-encontrado = EmpleadoDAO.buscar_por_id(empleado._id)
-print("Encontrado:", encontrado)
-
-print("Listado:")
-for item in EmpleadoDAO.listar():
-    print(item)
+if __name__ == "__main__":
+    try:
+        crear_tablas()
+    except Exception as error:
+        print("Error: No se creo la base de datos:", error)
+    else:
+        main()
